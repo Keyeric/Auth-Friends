@@ -31,7 +31,10 @@ const Friends = props => {
         ))}
         <div>
           <p>Missing a Friend?</p>
-          <AddFriend />
+          <AddFriend
+            friendsList={friendsList}
+            setFriendsList={setFriendsList}
+          />
         </div>
       </section>
     </div>
