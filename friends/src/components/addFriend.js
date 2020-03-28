@@ -5,8 +5,8 @@ import { axiosWithAuth } from "../utils/axiosWithAuth";
 const AddFriend = props => {
   const [newFriend, setNewFriend] = useState({
     name: "",
-    height: "",
-    age: ""
+    age: "",
+    email: ""
   });
 
   const handleChanges = e => {
@@ -28,33 +28,32 @@ const AddFriend = props => {
       });
   };
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="name"
-        placeholder="Name"
-        // value={newFriend.name}
-        onChange={handleChanges}
-      />
-      <br />
-      <input
-        type="number"
-        name="age"
-        placeholder="Age"
-        // value={newFriend.age}
-        onChange={handleChanges}
-      />
-      <br />
-      <input
-        type="text"
-        name="email"
-        placeholder="Email"
-        // value={newFriend.height}
-        onChange={handleChanges}
-      />
-      <br />
-      <button>New Friend</button>
-    </form>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="name"
+          placeholder="Name"
+          onChange={handleChanges}
+        />
+        <br />
+        <input
+          type="number"
+          name="age"
+          placeholder="Age"
+          onChange={handleChanges}
+        />
+        <br />
+        <input
+          type="text"
+          name="email"
+          placeholder="Email"
+          onChange={handleChanges}
+        />
+        <br />
+        <button>New Friend</button>
+      </form>
+    </div>
   );
 };
 
