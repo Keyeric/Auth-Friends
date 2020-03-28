@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { connect } from "react-redux";
 
-import { axiosWithAuth } from "../utils/axiosWithAuth";
+import { getFriends, newFriend } from "../actions/friendsActions";
 
 const AddFriend = props => {
   const [newFriend, setNewFriend] = useState({
@@ -18,14 +19,7 @@ const AddFriend = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    axiosWithAuth()
-      .post("/api/friends", newFriend)
-      .then(res => {
-        props.setFriendsList(res.data);
-      })
-      .catch(err => {
-        console.log("You dont have friends ", err);
-      });
+    props.newFriend(newFriend);
   };
   return (
     <div>
@@ -57,4 +51,13 @@ const AddFriend = props => {
   );
 };
 
-export default AddFriend;
+const mapStateToProps = state => {
+  return {
+    friends: state.friends,
+    error: state.error
+  };
+};
+export default connect(mapStateToProps, {
+  getFriends,
+  newFriend
+})(AddFriend);

@@ -1,21 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { connect } from "react-redux";
+
 import AddFriend from "./addFriend";
 import Logout from "./logout";
-
-import { axiosWithAuth } from "../utils/axiosWithAuth";
+import { getFriends } from "../actions/friendsActions";
 
 const Friends = props => {
-  const [friendsList, setFriendsList] = useState([]);
-  useEffect(() => {
-    axiosWithAuth()
-      .get(`http://localhost:5000/api/friends`)
-      .then(res => {
-        setFriendsList(res.data);
-      })
-      .catch(err => {
-        console.log("Do you even have friends? ", err);
-      });
-  }, []);
+  const goButton = e => {
+    e.preventDefault();
+    props.getFriends();
+  };
+
   return (
     <div className="FriendsList">
       <div className="Header">
@@ -23,7 +18,11 @@ const Friends = props => {
         <Logout />
       </div>
       <section className="Ppl">
-        {friendsList.map(ppl => (
+        <button onClick={goButton}>
+          SUPER ROBOT MONKEY TEAM HYPER FORCE GO
+        </button>
+        {props.error && <p>{props.error}</p>}
+        {props.friends.map(ppl => (
           <div key={ppl.id}>
             <span>
               <h3>{ppl.name}</h3>
@@ -34,14 +33,19 @@ const Friends = props => {
         ))}
         <div className="Form">
           <p>Missing a Friend?</p>
-          <AddFriend
-            friendsList={friendsList}
-            setFriendsList={setFriendsList}
-          />
+          <AddFriend />
         </div>
       </section>
     </div>
   );
 };
 
-export default Friends;
+const mapStateToProps = state => {
+  return {
+    friends: state.friends,
+    error: state.error
+  };
+};
+export default connect(mapStateToProps, {
+  getFriends
+})(Friends);

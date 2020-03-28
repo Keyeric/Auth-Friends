@@ -1,59 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
+import { connect } from "react-redux";
 
-import { axiosWithAuth } from "../utils/axiosWithAuth";
+import { LoginUser } from "../actions/friendsActions";
 
-class Login extends React.Component {
-  state = {
-    credentials: {
-      username: "",
-      password: ""
-    }
-  };
+const Login = props => {
+  const [login, setLogin] = useState(props.credentials);
 
-  handleChange = e => {
-    this.setState({
-      credentials: {
-        ...this.state.credentials,
-        [e.target.name]: e.target.value
-      }
+  const handleChange = e => {
+    setLogin({
+      ...login,
+      [e.target.name]: e.target.value
     });
   };
-
-  login = e => {
+  const loginButton = e => {
     e.preventDefault();
-    axiosWithAuth()
-      .post("http://localhost:5000/api/login", this.state.credentials)
-      .then(res => {
-        //console.log("Auth Obj:", res.data.payload);
-        window.localStorage.setItem("token", res.data.payload);
-        this.props.history.push("/protected");
-      })
-      .catch(err => {
-        console.log("We aint gettin' a darn thang:", err);
-      });
+    props.LoginUser(login);
+    props.history.push("/protected");
   };
+  return (
+    <div>
+      <h1>Welcome to the Friends App!</h1>
+      <form onSubmit={loginButton}>
+        <input
+          type="text"
+          name="username"
+          // value={props.credentials.username}
+          onChange={handleChange}
+        />
+        <input
+          type="password"
+          name="password"
+          // value={props.credentials.password}
+          onChange={handleChange}
+        />
+        <button>Log in</button>
+      </form>
+    </div>
+  );
+};
 
-  render() {
-    return (
-      <div>
-        <h1>Welcome to the Friends App!</h1>
-        <form onSubmit={this.login}>
-          <input
-            type="text"
-            name="username"
-            value={this.state.credentials.username}
-            onChange={this.handleChange}
-          />
-          <input
-            type="password"
-            name="password"
-            value={this.state.credentials.password}
-            onChange={this.handleChange}
-          />
-          <button>Log in</button>
-        </form>
-      </div>
-    );
-  }
-}
-export default Login;
+const mapStateToProps = state => {
+  return {
+    credentials: state.credentials,
+    error: state.error
+  };
+};
+export default connect(mapStateToProps, {
+  LoginUser
+})(Login);
