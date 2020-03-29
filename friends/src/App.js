@@ -7,7 +7,7 @@ import { PrivateRoute } from "./utils/PrivateRoute";
 
 import "./App.css";
 
-function App() {
+const App = () => {
   return (
     <Router>
       <div className="App">
@@ -18,6 +18,6 @@ function App() {
       </div>
     </Router>
   );
-}
+};
 
 export default App;

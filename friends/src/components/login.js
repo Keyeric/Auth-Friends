@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+// import { useHistory } from "react-router-dom";
 
 import { LoginUser } from "../actions/friendsActions";
 
 const Login = props => {
+  // const history = useHistory();
   const [login, setLogin] = useState(props.credentials);
 
   const handleChange = e => {
@@ -15,7 +17,7 @@ const Login = props => {
   const loginButton = e => {
     e.preventDefault();
     props.LoginUser(login);
-    props.history.push("/protected");
+    // history.push("/protected");
   };
   return (
     <div>

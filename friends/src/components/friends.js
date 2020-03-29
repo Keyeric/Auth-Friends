@@ -1,9 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import { getFriends } from "../actions/friendsActions";
+
 import AddFriend from "./addFriend";
 import Logout from "./logout";
-import { getFriends } from "../actions/friendsActions";
 
 const Friends = props => {
   const goButton = e => {
